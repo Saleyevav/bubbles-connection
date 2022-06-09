@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /* display: flex;
+  justify-content: space-between; */
+}
+
+#canvasBubbles {
+  /* position: absolute; */
+  /* overflow: hidden; */
+  width: 100%;
+  height: 50vh;
+  border: 3px solid black;
+}
+#canvasBubbles2 {
+  /* position: absolute; */
+  /* overflow: hidden; */
+  width: 100%;
+  height: 50vh;
+  border: 3px solid black;
+}

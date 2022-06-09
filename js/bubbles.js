@@ -37,7 +37,8 @@ const canvasBubbles = (function () {
     let dy = random(-3, 3);
     let radius = random(minRadius, maxRadius);
     const startRadius = radius;
-
+    this.x = x;
+    this.y = y;
     const nativeColor = colorSet[random(1, colorSet.length)];
     let color = nativeColor + getOpacity(radius, maxRadius);
     const startColor = color;
@@ -79,8 +80,9 @@ const canvasBubbles = (function () {
       }
       x += dx;
       y += dy;
-
-      resize(mouseRadius);
+      this.x = x;
+      this.y = y;
+      //resize(mouseRadius);
       draw();
     };
 
@@ -124,6 +126,25 @@ const canvasBubbles = (function () {
       return arr;
     }
     const bubbles = generateBubbles();
+    console.log(bubbles[0].dx);
+    // context.beginPath();
+    // context.moveTo(0, 0);
+    // context.lineTo(100, 100);
+    // context.stroke();
+    //-------------------
+    function drawLines() {
+      for (let bub of bubbles) {
+        for (let bub2 of bubbles) {
+          console.log(bub.x);
+          context.beginPath();
+          context.moveTo(bub.x, bub.y);
+          context.lineTo(bub2.x, bub2.y);
+          context.stroke();
+        }
+      }
+    }
+
+    //-------------------
 
     function animate() {
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -132,11 +153,12 @@ const canvasBubbles = (function () {
         bubble.setMouseXY(mouseX, mouseY);
         bubble.move();
       }
+      drawLines();
       requestAnimationFrame(animate);
     }
 
     return function () {
-      generateBubbles();
+      // generateBubbles();
       animate();
     };
   };
@@ -145,13 +167,10 @@ const canvasBubbles = (function () {
 const instance = canvasBubbles('canvasBubbles', {
   colorSet: ['', '#d32821', '#53a66f', '#5db5f8'],
   mouseRadius: 100,
-  countBubbles: 100,
+  countBubbles: 20,
   minRadius: 7,
   maxRadius: 20,
   count: 10,
 });
 
-const instance2 = canvasBubbles('canvasBubbles2');
-
 instance();
-instance2();

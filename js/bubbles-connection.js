@@ -1,5 +1,5 @@
 'use strict';
-const canvasBubbles = (function () {
+const bubblesConnections = (function () {
   const defaultOptions = {
     colorSet: ['', '#d32821', '#53a66f', '#5db5f8'],
     mouseRadius: 100,
@@ -166,6 +166,6 @@ const canvasBubbles = (function () {
   };
 })();
 
-const instance = canvasBubbles('canvasBubbles');
+const instance = bubblesConnections('canvasBubbles');
 
 instance();

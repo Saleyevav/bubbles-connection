@@ -166,6 +166,6 @@ const bubblesConnection = (function () {
   };
 })();
 
-const instance = bubblesConnections('canvasBubbles');
+const instance = bubblesConnection('canvasBubbles');
 
 instance();

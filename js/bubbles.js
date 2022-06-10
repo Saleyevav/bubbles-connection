@@ -24,6 +24,13 @@ const canvasBubbles = (function () {
     }
     return result;
   }
+  function Connection(a, b) {
+    this.x = a.x;
+    this.y = a.y;
+    this.x2 = b.x;
+    this.y2 = b.y;
+    this.distance = Math.hypot(b.x - a.x, b.y - a.y);
+  }
 
   function Bubble(canvas, context, options) {
     const { maxRadius, minRadius } = options;
@@ -129,33 +136,35 @@ const canvasBubbles = (function () {
 
     function drawLine(x, y, x2, y2, color) {
       context.beginPath();
-      context.strokeStyle = color;
+      context.strokeStyle = color + '66';
       context.moveTo(x, y);
       context.lineTo(x2, y2);
       context.stroke();
     }
-
-    function drawLines(bubbles, color) {
+    //let connections = [];
+    function getConnections(bubbles) {
       if (bubbles.length < 2) {
-        return bubbles;
+        return [];
       }
       if (bubbles.length == 2) {
-        drawLine(bubbles[0].x, bubbles[0].y, bubbles[1].x, bubbles[1].y, color);
+        return Array(new Connection(bubbles[0], bubbles[1]));
       }
       if (bubbles.length > 2) {
-        let arr = bubbles.slice(1);
-        for (let bub of arr) {
-          drawLine(bubbles[0].x, bubbles[0].y, bub.x, bub.y, color);
+        let arrBub = bubbles.slice(1);
+        let connections = [];
+        for (let bub of arrBub) {
+          connections.push(new Connection(bubbles[0], bub));
         }
-        return drawLines(arr, color);
+        return connections.concat(getConnections(arrBub));
       }
     }
-
-    function lineDistance(p1, p2) {
-      return Math.hypot(p2.x - p1.x, p2.y - p1.y);
+    function drawLines(connections) {
+      for (let c of connections) {
+        if (c.distance < 200) {
+          drawLine(c.x, c.y, c.x2, c.y2);
+        }
+      }
     }
-
-    //-------------------
 
     function animate() {
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -164,12 +173,11 @@ const canvasBubbles = (function () {
         bubble.setMouseXY(mouseX, mouseY);
         bubble.move();
       }
-      drawLines(bubbles, 'green');
+      drawLines(getConnections(bubbles));
       requestAnimationFrame(animate);
     }
 
     return function () {
-      // generateBubbles();
       animate();
     };
   };
@@ -178,9 +186,9 @@ const canvasBubbles = (function () {
 const instance = canvasBubbles('canvasBubbles', {
   colorSet: ['', '#d32821', '#53a66f', '#5db5f8'],
   mouseRadius: 100,
-  countBubbles: 5,
-  minRadius: 3,
-  maxRadius: 3,
+  countBubbles: 20,
+  minRadius: 10,
+  maxRadius: 10,
   count: 10,
 });
 

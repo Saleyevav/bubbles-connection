@@ -3,9 +3,12 @@ const canvasBubbles = (function () {
   const defaultOptions = {
     colorSet: ['', '#d32821', '#53a66f', '#5db5f8'],
     mouseRadius: 100,
-    countBubbles: 500,
-    minRadius: 7,
-    maxRadius: 20,
+    countBubbles: 100,
+    maxSpeed: 0.5,
+    minRadius: 3,
+    maxRadius: 3,
+    threshold: 200,
+    lineColor: '#000000',
   };
 
   function getOpacity(radius, maxRadius) {
@@ -163,15 +166,6 @@ const canvasBubbles = (function () {
   };
 })();
 
-const instance = canvasBubbles('canvasBubbles', {
-  colorSet: ['', '#d32821', '#53a66f', '#5db5f8'],
-  mouseRadius: 100,
-  countBubbles: 100,
-  maxSpeed: 0.5,
-  minRadius: 3,
-  maxRadius: 3,
-  threshold: 200,
-  lineColor: '#000000',
-});
+const instance = canvasBubbles('canvasBubbles');
 
 instance();

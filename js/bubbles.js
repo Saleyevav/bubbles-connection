@@ -40,8 +40,8 @@ const canvasBubbles = (function () {
     let mouseY = 0;
     let x = random(maxRadius, canvas.width - maxRadius);
     let y = random(maxRadius, canvas.height - maxRadius);
-    let dx = random(-3, 3);
-    let dy = random(-3, 3);
+    let dx = random(-2, 2);
+    let dy = random(-2, 2);
     let radius = random(minRadius, maxRadius);
     const startRadius = radius;
     this.x = x;
@@ -136,7 +136,7 @@ const canvasBubbles = (function () {
 
     function drawLine(x, y, x2, y2, color) {
       context.beginPath();
-      context.strokeStyle = color + '66';
+      context.strokeStyle = color;
       context.moveTo(x, y);
       context.lineTo(x2, y2);
       context.stroke();
@@ -158,14 +158,18 @@ const canvasBubbles = (function () {
         return connections.concat(getConnections(arrBub));
       }
     }
-    function drawLines(connections) {
+    function drawLines(connections, maxDistance, clr) {
       for (let c of connections) {
-        if (c.distance < 200) {
-          drawLine(c.x, c.y, c.x2, c.y2);
+        if (c.distance < maxDistance) {
+          let per = 100 - Math.round(c.distance / (maxDistance / 100));
+          if (per < 10) {
+            per = '0' + per;
+          }
+          let color = clr + per;
+          drawLine(c.x, c.y, c.x2, c.y2, color);
         }
       }
     }
-
     function animate() {
       context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -173,10 +177,9 @@ const canvasBubbles = (function () {
         bubble.setMouseXY(mouseX, mouseY);
         bubble.move();
       }
-      drawLines(getConnections(bubbles));
+      drawLines(getConnections(bubbles), 200, '#000000');
       requestAnimationFrame(animate);
     }
-
     return function () {
       animate();
     };
@@ -186,9 +189,9 @@ const canvasBubbles = (function () {
 const instance = canvasBubbles('canvasBubbles', {
   colorSet: ['', '#d32821', '#53a66f', '#5db5f8'],
   mouseRadius: 100,
-  countBubbles: 20,
-  minRadius: 10,
-  maxRadius: 10,
+  countBubbles: 100,
+  minRadius: 3,
+  maxRadius: 3,
   count: 10,
 });
 

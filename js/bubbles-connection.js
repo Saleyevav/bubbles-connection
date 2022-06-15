@@ -1,3 +1,9 @@
+/**Bubbles-connection v1.0.0
+ *Developed by Alexandr Saleyev
+ *email: saleyevav@yandex.ru
+ *15.06.2022
+ */
+
 'use strict';
 const bubblesConnection = (function () {
   const defaultOptions = {
@@ -165,7 +171,3 @@ const bubblesConnection = (function () {
     };
   };
 })();
-
-const instance = bubblesConnection('canvasBubbles');
-
-instance();
